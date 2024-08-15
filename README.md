@@ -1,4 +1,4 @@
-# Chimera
+# ReYOLOv8
 
 # Setting up the environment 
 
