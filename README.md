@@ -1,5 +1,13 @@
 # ReYOLOv8
 
+This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection <br/>
+
+You can read the full paper on: <br/>
+[https://arxiv.org/pdf/2408.05321] <br/>
+
+To check-out the original YOLOv8 repo, from Utralytics, you can check: <br/>
+[(https://github.com/ultralytics/ultralytics)] <br/>
+
 # Setting up the environment 
 
 conda create -n reyolov8 python==3.9 <br/>
