@@ -1,6 +1,6 @@
 # ReYOLOv8
 
-This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection <br/>
+This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection" <br/>
 
 You can read the full paper on: <br/>
 [https://arxiv.org/pdf/2408.05321] <br/>
