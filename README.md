@@ -41,5 +41,6 @@ The raw datasets used in this work can be found on the following links:
 
 # Code Acknowledgments
 
-- (https://github.com/ultralytics/ultralytics)
-- (https://github.com/uzh-rpg/RVT)
+- https://github.com/ultralytics/ultralytics
+- https://github.com/MichiganCOG/vip
+- https://github.com/uzh-rpg/RVT
