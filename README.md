@@ -30,3 +30,11 @@ python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt  --channels 5  <br/>
 
 
 # TODO MULTI-GPU
+
+
+# Datasets 
+
+The raw datasets used in this work can be found on the following links:
+
+GEN1 - https://www.prophesee.ai/2020/01/24/prophesee-gen1-automotive-detection-dataset/
+PEDRo - https://github.com/SSIGPRO/PEDRo-Event-Based-Dataset
