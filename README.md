@@ -16,7 +16,7 @@ conda install pytorch==1.12.1 torchvision==0.13.1 torchaudio==0.12.1 cudatoolkit
 python -m pip install opencv-python tqdm==4.66.2 pandas==2.2.2 numpy==1.22.4 psutil==5.9.8 pyyaml==6.0.1 matplotlib==3.8.4 thop wandb h5py==3.11.0 hdf5plugin==4.4.0 tensorboard==2.16.2 <br/>
 
 
-# Evaluate 
+# Evaluate the results of the paper
 
 
 python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt  --channels 5 --split ${SPLIT} <br/>
@@ -25,6 +25,8 @@ Example
 - **${SPLIT}**: val or test
 - **${DATASET}**: vtei_gen1
 - **${WEIGHTS}**: reyolov8s_gen1_rps
+
+To analyze the statistics about the different data formats you can use:
 
 # Training 
 
@@ -36,6 +38,8 @@ Example
 
 - **MULTI-GPU**
 
+# Predictions and display some images
+
 
 # Datasets 
 
@@ -43,6 +47,9 @@ The raw datasets used in this work can be found on the following links:
 
 - **GEN1**: [Prophesee Gen1 Automotive Detection Dataset](https://www.prophesee.ai/2020/01/24/prophesee-gen1-automotive-detection-dataset/)
 - **PEDRo**: [PEDRo Event-Based Dataset](https://github.com/SSIGPRO/PEDRo-Event-Based-Dataset)
+
+
+
 
 # Code Acknowledgments
 
