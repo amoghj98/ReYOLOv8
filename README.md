@@ -27,7 +27,7 @@ First of all, you need to open the "yaml" file to the corresponding dataset you 
 Then, you can run:
 
 ```python
-python train.py --batch 12 --nbs 6 --epochs 100 --data ${DATASET}.yaml --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}```
+python train.py --batch 12 --nbs 6 --epochs 100 --data ${DATASET}.yaml --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}
 
 Example
 **${SPLIT}**: val, test
