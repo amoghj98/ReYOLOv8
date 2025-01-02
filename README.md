@@ -24,7 +24,7 @@ python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt  --channels 5 --split
 Example
 - **${SPLIT}**: val or test
 - **${DATASET}**: vtei_gen1
-- **${WEIGHTS}**: reyolov8s_gen1_rps
+- **${WEIGHTS}**: weights/reyolov8s_gen1_rps
 
 # Training 
 
