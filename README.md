@@ -46,7 +46,7 @@ The raw datasets used in this work can be found on the following links:
 
 
 
-# Code Acknowledgments
+# Code Acknowledgements
 
 - https://github.com/ultralytics/ultralytics
 - https://github.com/MichiganCOG/vip
