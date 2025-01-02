@@ -2,6 +2,9 @@
 
 This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection" <br/>
 
+
+![Example Image](images/gen1_performance.pdf)
+
 You can read the full paper on: <br/>
 [https://arxiv.org/pdf/2408.05321] <br/>
 
