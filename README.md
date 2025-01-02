@@ -25,7 +25,7 @@ python -m pip install opencv-python tqdm==4.66.2 pandas==2.2.2 numpy==1.22.4 psu
 python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt  --channels 5 --split ${SPLIT} <br/>
 
 Example
-- **${SPLIT}**: val or test
+- **${SPLIT}**: val, test
 - **${DATASET}**: vtei_gen1, vtei pedro
 - **${WEIGHTS}**: weights/reyolov8s_gen1_rps
 
