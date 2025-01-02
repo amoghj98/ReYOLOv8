@@ -28,7 +28,6 @@ Then, you can run:
 
 ```
  python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT}
-
 ```
 Example
 **${SPLIT}**: val, test
