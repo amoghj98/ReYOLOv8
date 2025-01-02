@@ -26,7 +26,8 @@ python -m pip install opencv-python tqdm==4.66.2 pandas==2.2.2 numpy==1.22.4 psu
 First of all, you need to open the "yaml" file to the corresponding dataset you want to test and modify the paths to the location you are using.
 Then, you can run:
 
-python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt  --channels 5 --split ${SPLIT} <br/>
+```python
+python train.py --batch 12 --nbs 6 --epochs 100 --data ${DATASET}.yaml --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}
 
 Example
 **${SPLIT}**: val, test
