@@ -34,6 +34,12 @@ Example
 **${DATASET}**: vtei_gen1, vtei_pedro
 **${WEIGHTS}**: weights/reyolov8s_gen1_rps
 
+The speed statistics in this validation mode are given according the full sequences. To check the speed to perform inference tensor by tensor, we run:
+
+```
+ python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT} --speed
+```
+
 To evaluate the data format statistics 
 
 # Training 
