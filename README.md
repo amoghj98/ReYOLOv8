@@ -51,11 +51,10 @@ To evaluate the data format statistics
 # Training 
 
 **Single-GPU**
+
 ```
 python train.py --batch 12 --nbs 6 --epochs 100 --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME} 
 ```
-
-**Multi-GPU**
 
 # Raw Datasets 
 
