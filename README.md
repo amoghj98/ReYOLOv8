@@ -63,11 +63,6 @@ The raw datasets used in this work can be found on the following links:
 - **GEN1**: [Prophesee Gen1 Automotive Detection Dataset](https://www.prophesee.ai/2020/01/24/prophesee-gen1-automotive-detection-dataset/)
 - **PEDRo**: [PEDRo Event-Based Dataset](https://github.com/SSIGPRO/PEDRo-Event-Based-Dataset)
 
-# Create your custom format 
-
-
-# Streaming
-
 # Code Acknowledgements
 
 - https://github.com/ultralytics/ultralytics
