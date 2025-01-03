@@ -24,6 +24,9 @@ You can donwload the pretrained weights used in this work here:
 
 [pretrained weights](https://drive.google.com/drive/folders/1UHIShRPFNVq1hDIUDlWC2gCz-RAbidr7?usp=drive_link)
 
+Meanwhile, the preprocessed datasets can be found here:
+
+[preprocessed datasets](https://drive.google.com/drive/folders/1mmzEw8Jkcz9BFocw5OqFdCLb_H8t-ue5?usp=drive_link)
 # Evaluate the results of the paper
 
 First of all, you need to open the "yaml" file to the corresponding dataset you want to test and modify the paths to the location you are using.
