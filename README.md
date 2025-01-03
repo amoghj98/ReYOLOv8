@@ -6,10 +6,10 @@ This repository contains the source code for "A Recurrent YOLOv8-Based Framework
 ![](images/cover.png)
 
 You can read the full paper on: <br/>
-[https://arxiv.org/pdf/2408.05321] <br/>
+[Arxiv version of ReYOLOv8 paper](https://arxiv.org/pdf/2408.05321) <br/>
 
 To check-out the original YOLOv8 repo, from Utralytics, you can check: <br/>
-[https://github.com/ultralytics/ultralytics] <br/>
+[Ultralytics' original repo](https://github.com/ultralytics/ultralytics) <br/>
 
 # Setting up the environment 
 ```
