@@ -20,9 +20,9 @@ python -m pip install opencv-python tqdm==4.66.2 pandas==2.2.2 numpy==1.22.4 psu
 ```
 # Downloading the necessary data
 
-You can donwload the preprocessed datasets used in this work here:
+You can donwload the pretrained weights used in this work here:
 
-[Pre-processed datasets](https://drive.google.com/drive/folders/1UHIShRPFNVq1hDIUDlWC2gCz-RAbidr7?usp=drive_link)
+[pretrained weights](https://drive.google.com/drive/folders/1UHIShRPFNVq1hDIUDlWC2gCz-RAbidr7?usp=drive_link)
 
 # Evaluate the results of the paper
 
