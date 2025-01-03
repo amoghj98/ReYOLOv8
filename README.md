@@ -9,7 +9,7 @@ You can read the full paper on: <br/>
 [https://arxiv.org/pdf/2408.05321] <br/>
 
 To check-out the original YOLOv8 repo, from Utralytics, you can check: <br/>
-[(https://github.com/ultralytics/ultralytics)] <br/>
+[https://github.com/ultralytics/ultralytics] <br/>
 
 # Setting up the environment 
 ```
@@ -20,6 +20,9 @@ python -m pip install opencv-python tqdm==4.66.2 pandas==2.2.2 numpy==1.22.4 psu
 ```
 # Downloading the necessary data
 
+You can donwload the preprocessed datasets used in this work here:
+
+[https://drive.google.com/drive/folders/1UHIShRPFNVq1hDIUDlWC2gCz-RAbidr7?usp=drive_link]
 
 # Evaluate the results of the paper
 
