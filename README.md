@@ -1,6 +1,6 @@
 # ReYOLOv8
 
-This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection", accepted for publication in the Frontiers of Neuroscience journal under the Neuromorphic Engineering topic <br/>
+This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection", accepted for publication in the Frontiers of Neuroscience journal under the Neuromorphic Engineering topic. <br/>
 
 
 ![](images/cover.png)
