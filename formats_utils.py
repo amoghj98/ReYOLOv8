@@ -5,49 +5,6 @@ import math
 import time
 
 
-
-
-def taf_cuda(x, y, t, p, shape, volume_bins, past_volume):
-    tick = time.time()
-    H, W = shape
-
-    img = torch.zeros((H * W * 2)).float().to(x.device)
-    img.index_add_(0, p + 2 * x + 2 * W * y, torch.ones_like(x).float())
-    t_img = torch.zeros((H * W * 2)).float().to(x.device)
-    t_img.index_add_(0, p + 2 * x + 2 * W * y, t - 1.0)
-    t_img = t_img/(img+1e-8)
-
-    img = img.view(H, W, 2)
-    t_img = t_img.view(H, W, 2)
-    torch.cuda.synchronize()
-    generate_volume_time = time.time() - tick
-
-    tick = time.time()
-    forward = (img == 0)
-    torch.cuda.synchronize()
-    filter_time = time.time() - tick
-    tick = time.time()
-    old_ecd = past_volume
-    if torch.all(forward):
-        ecd = old_ecd
-    else:
-        ecd = t_img[:, :, :, None]
-        ecd = torch.cat([old_ecd, ecd],dim=3)
-        for i in range(1,ecd.shape[3])[::-1]:
-            ecd[:,:,:,i-1] = ecd[:,:,:,i-1] - 1
-            ecd[:,:,:,i] = torch.where(forward, ecd[:,:,:,i-1],ecd[:,:,:,i])
-        if ecd.shape[3] > volume_bins:
-            ecd = ecd[:,:,:,1:]
-        else:
-            ecd[:,:,:,0] = torch.where(forward, torch.zeros_like(forward).float() -6000, ecd[:,:,:,0])
-    torch.cuda.synchronize()
-    generate_encode_time = time.time() - tick
-
-    ecd_viewed = ecd.permute(3, 2, 0, 1).contiguous().view(volume_bins * 2, H, W)
-
-    #print(generate_volume_time, filter_time, generate_encode_time)
-    return ecd_viewed, ecd, generate_encode_time + generate_volume_time
-
 def shist(x,y,t,p, bins, height, width, device = "cpu"):
     # https://github.com/uzh-rpg/RVT/blob/master/data/utils/representations.py#L124
     dtype = torch.uint8
