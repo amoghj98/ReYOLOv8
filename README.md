@@ -46,7 +46,31 @@ The speed statistics in this validation mode are given according the full sequen
  python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT} --speed
 ```
 
-To evaluate the data format statistics 
+To evaluate the data format statistics
+
+```
+ python EventEncodingProfiler.py --folder "test_timing"
+```
+
+The folder **${test_timing}** has the "csv" files resulting from our experiments. 
+
+To generate the csv files on your own setup, you can first download the sequence used for us through this link:
+[Sequence for data format evaluation](https://drive.google.com/file/d/1Tuey6YnQsouGtM1bFNKk2WCRAGrsh1xM/view?usp=sharing)
+
+Then, you can generate the csv files running the following snippet of code 
+
+```
+python EventEncodingProfilerRun.py --input_file $DAT$ --output $OUTPUT_FOLDER$ --format $FMT$
+
+```
+
+where
+
+**${AEDAT4}**: the DAT file used for eveluation
+**${OUTPUT_FOLDER}**: the folder where you want to save it
+**${FMT}**: vtei, mdes, voxel_grid, or shist
+
+Then, after running this snippet for all the formats, you can run the **{EventEncodingProfiler.py}** file again
 
 # Training 
 
