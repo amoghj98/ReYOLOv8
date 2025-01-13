@@ -60,7 +60,7 @@ To generate the csv files on your own setup, you can first download the sequence
 Then, you can generate the csv files running the following snippet of code 
 
 ```
-python EventEncodingProfilerRun.py --input_file $DAT$ --output $OUTPUT_FOLDER$ --format $FMT$
+python EventEncodingProfilerRun.py --input_file $DAT --output $OUTPUT_FOLDER --format $FMT
 
 ```
 
