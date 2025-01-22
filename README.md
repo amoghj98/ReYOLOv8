@@ -1,12 +1,12 @@
 # ReYOLOv8
 
-This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection", accepted for publication in the Frontiers of Neuroscience journal under the Neuromorphic Engineering topic. <br/>
+This repository contains the source code for "A Recurrent YOLOv8-Based Framework for Event-Based Object Detection", published in the Frontiers of Neuroscience journal under the Neuromorphic Engineering topic. <br/>
 
 
 ![](images/cover.png)
 
 You can read the full paper on: <br/>
-[Arxiv version of ReYOLOv8 paper](https://arxiv.org/pdf/2408.05321) <br/>
+[Frontiers in Neuroscience - ReYOLOv8 paper](https://doi.org/10.3389/fnins.2024.1477979) <br/>
 
 To check-out the original YOLOv8 repo, from Utralytics, you can check: <br/>
 [Ultralytics' original repo](https://github.com/ultralytics/ultralytics) <br/>
