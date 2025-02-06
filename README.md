@@ -87,8 +87,15 @@ The raw datasets used in this work can be found on the following links:
 - **GEN1**: [Prophesee Gen1 Automotive Detection Dataset](https://www.prophesee.ai/2020/01/24/prophesee-gen1-automotive-detection-dataset/)
 - **PEDRo**: [PEDRo Event-Based Dataset](https://github.com/SSIGPRO/PEDRo-Event-Based-Dataset)
 
-# Cite this work
 
+# Code Acknowledgements
+
+- https://github.com/ultralytics/ultralytics
+- https://github.com/MichiganCOG/vip
+- https://github.com/uzh-rpg/RVT
+
+# Cite this work
+```
 @article{silva2025recurrent,
   title={A recurrent YOLOv8-based framework for event-based object detection},
   author={Silva, Diego A and Smagulova, Kamilya and Elsheikh, Ahmed and Fouda, Mohammed E and Eltawil, Ahmed M},
@@ -98,9 +105,4 @@ The raw datasets used in this work can be found on the following links:
   year={2025},
   publisher={Frontiers Media SA}
 }
-# Code Acknowledgements
-```
-- https://github.com/ultralytics/ultralytics
-- https://github.com/MichiganCOG/vip
-- https://github.com/uzh-rpg/RVT
 ```
