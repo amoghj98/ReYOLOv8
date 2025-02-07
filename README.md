@@ -36,10 +36,10 @@ Then, you can run:
  python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT} --show_sequences ${SEQ}
 ```
 Example: <br />
-**$SPLIT**: val, test <br />
-**$DATASET**: vtei_gen1, vtei_pedro <br />
-**$WEIGHTS**: weights/reyolov8s_gen1_rps <br />
-**$SEQ**: number of sequences you want to see the predictions, default is 3 
+**SPLIT**: val, test <br />
+**DATASET**: vtei_gen1, vtei_pedro <br />
+**WEIGHTS**: weights/reyolov8s_gen1_rps <br />
+**SEQ**: number of sequences you want to see the predictions, default is 3 
 
 The speed statistics in this validation mode are given according the full sequences. To check the speed to perform inference tensor by tensor, we run:
 
@@ -67,9 +67,9 @@ python EventEncodingProfilerRun.py --input_file $DAT --output $OUTPUT_FOLDER --f
 
 where
 
-**$AEDAT4**: the DAT file used for evaluation <br />
-**$OUTPUT_FOLDER**: the folder where you want to save it <br />
-**$FMT**: vtei, mdes, voxel_grid, or shist
+**AEDAT4**: the DAT file used for evaluation <br />
+**OUTPUT_FOLDER**: the folder where you want to save it <br />
+**FMT**: vtei, mdes, voxel_grid, or shist
 
 Then, after running this snippet for all the formats, you can run the **{EventEncodingProfiler.py}** file again
 
