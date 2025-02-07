@@ -67,9 +67,7 @@ python EventEncodingProfilerRun.py --input_file $DAT --output $OUTPUT_FOLDER --f
 
 where
 
-**${AEDAT4}**: the DAT file used for eveluation \n
-**${OUTPUT_FOLDER}**: the folder where you want to save it
-**${FMT}**: vtei, mdes, voxel_grid, or shist
+**${AEDAT4}**: the DAT file used for eveluation\n**${OUTPUT_FOLDER}**: the folder where you want to save it\n**${FMT}**: vtei, mdes, voxel_grid, or shist
 
 Then, after running this snippet for all the formats, you can run the **{EventEncodingProfiler.py}** file again
 
