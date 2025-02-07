@@ -35,11 +35,11 @@ Then, you can run:
 ```
  python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT} --show_sequences ${SEQ}
 ```
-Example
-**${SPLIT}**: val, test
-**${DATASET}**: vtei_gen1, vtei_pedro
-**${WEIGHTS}**: weights/reyolov8s_gen1_rps
-**${SEQ}**: number of sequences you want to see the predictions, default is 3
+Example: <br />
+**$SPLIT**: val, test <br />
+**$DATASET**: vtei_gen1, vtei_pedro <br />
+**$WEIGHTS**: weights/reyolov8s_gen1_rps <br />
+**$SEQ**: number of sequences you want to see the predictions, default is 3 
 
 The speed statistics in this validation mode are given according the full sequences. To check the speed to perform inference tensor by tensor, we run:
 
@@ -53,12 +53,12 @@ To evaluate the data format statistics
  python EventEncodingProfiler.py --folder "test_timing"
 ```
 
-The folder **${test_timing}** has the "csv" files resulting from our experiments. 
+The folder **test_timing** has our experiments' "csv" files. 
 
-To generate the csv files on your own setup, you can first download the sequence used for us through this link:
+To generate the csv files on your setup, you can first download the sequence used for us through this link:
 [Sequence for data format evaluation](https://drive.google.com/file/d/1Tuey6YnQsouGtM1bFNKk2WCRAGrsh1xM/view?usp=sharing)
 
-Then, you can generate the csv files running the following snippet of code 
+Then, you can generate the csv files running the following code snippet. 
 
 ```
 python EventEncodingProfilerRun.py --input_file $DAT --output $OUTPUT_FOLDER --format $FMT
@@ -67,7 +67,9 @@ python EventEncodingProfilerRun.py --input_file $DAT --output $OUTPUT_FOLDER --f
 
 where
 
-**${AEDAT4}**: the DAT file used for eveluation\n**${OUTPUT_FOLDER}**: the folder where you want to save it\n**${FMT}**: vtei, mdes, voxel_grid, or shist
+**$AEDAT4**: the DAT file used for evaluation <br />
+**$OUTPUT_FOLDER**: the folder where you want to save it <br />
+**$FMT**: vtei, mdes, voxel_grid, or shist
 
 Then, after running this snippet for all the formats, you can run the **{EventEncodingProfiler.py}** file again
 
@@ -83,33 +85,33 @@ python train.py --batch ${BATCH} --nbs ${BATCH//2} --epochs ${NUM_EPOCH} --data 
 
 where:
 
-**${BATCH}**: batch size
-**${NUM_EPOCH}**: number of epochs
-**${MODEL_NAME}**: ReYOLOv8n, ReYOLOv8s, or ReYOLOv8m
-**${HYP}**: Files with some hyperparameters: default_gen1 and default_pedro
-**${S}**: Suppression probability (use only if the data format is VTEI or MDES)
-**${P}**: Positive suppression probability 
-**${F}**: Horizontal flip probability
-**${Z}**: Zoom-out probability
-**${VAL_EPOCH}**: Number of epochs to perform validation
-**${CLIP_LENGTH}**: Length of the clips used for tranining
-**${CLIP_STRIDE}**: Distance between different clips. If equal to CLIP_LENGTH, clips will not present overlapp.
+**BATCH**: batch size <br />
+**NUM_EPOCH**: number of epochs <br />
+**MODEL_NAME**: ReYOLOv8n, ReYOLOv8s, or ReYOLOv8m <br />
+**HYP**: Files with some hyperparameters: default_gen1 and default_pedro <br />
+**S**: Suppression probability (use only if the data format is VTEI or MDES) <br />
+**P**: Positive suppression probability <br />
+**F**: Horizontal flip probability <br />
+**Z**: Zoom-out probability <br />
+**VAL_EPOCH**: Number of epochs to perform validation <br />
+**CLIP_LENGTH**: Length of the clips used for training <br />
+**CLIP_STRIDE**: Distance between different clips. If equal to CLIP_LENGTH, clips will not present overlap.
 
 Other parameters such as the loss coefficients, learning rate, and weight decay can be modified in the **default.yaml** files.
 
-To accelerate the training, we adopted some tricks:
-**1-** We validated only at each 10 epochs
-**2-** During training, instead of running the validation steps on full sequences, we divided the **val** set into batches that can be processed faster.
-**3-** On the training pipeline, only the final validation step over the **test** set is calculated over full sequences.
-**4-** Values reported in the paper that refer to the **val** set come from running **val.py** after training
+To accelerate the training, we adopted some tricks:  <br />
+**1-** We validated only at each 10 epochs <br />
+**2-** During training, instead of running the validation steps on full sequences, we divided the **val** set into batches that can be processed faster. <br />
+**3-** On the training pipeline, only the final validation step over the **test** set is calculated over full sequences. <br />
+**4-** Values reported in the paper that refer to the **val** set come from running **val.py** after training <br />
 
-The factor **--nbs** stands for Normalized Batch Size. It is also present in the original Ultralytics repo, and it is utilized as an attempt to make the training more robust to different batch sizes. Accordingly, 
+The factor **--nbs** stands for Normalized Batch Size. It is also present in the original Ultralytics repo and is utilized to make the training more robust to different batch sizes. Accordingly, 
 the Weight Decay was set taking into consideration the **nbs** and the **clip length** according to:
 
 ```
 W_Decay = W0*Batch_size*Clip_Length/NBS
 ```
-where **W0** is the weight decay defined in the default files and **W_Decay** is the one adopted during training (and reported on the paper)
+Where **W0** is the weight decay defined in the default files and **W_Decay** is the one adopted during training (and reported on the paper)
 
 **Reproduce our training**
 
@@ -150,10 +152,11 @@ The raw datasets used in this work can be found on the following links:
 ```
 
 
-**${T}**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo.
-**${RAW_DATASET_FOLDER}**: folder where the 
-**${FMT}**: vtei, mdes, voxel_grid, or shist.
-**${TBIN}**: number of channels of the encoding. For **SHIST and VOXEL_GRIDs**, the final number of channels will be **2TBIN**
+**$T**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo. <br />
+**$CONVERTED_DATASET_FOLDER**: folder where the raw dataset is stored <br />
+**$RAW_DATASET_FOLDER**: destination folder <br />
+**$FMT**: vtei, mdes, voxel_grid, or shist. <br />
+**$TBIN**: number of channels of the encoding. For **SHIST and VOXEL_GRIDs**, the final number of channels will be **2TBIN**
 
 
 Remarks: **Do not use Random Polariy Suppression if you choose SHIST or VOXEL_GRID as methods**
