@@ -117,22 +117,22 @@ Where **W0** is the weight decay defined in the default files and **W_Decay** is
 
 ```
 #PEDRo: ReYOLOv8n
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.25 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.25 --zoom_out 0.2 --flip 0.5 --val_epoch 10 --clip_length 5 --clip_stride 5
 
 #PEDRo: ReYOLOv8s
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10 --clip_length 5 --clip_stride 5
 
 #PEDRo: ReYOLOv8m
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10 --clip_length 5 --clip_stride 5
 
 #GEN1: ReYOLOv8n
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.25 --positive 0.25 --zoom_out 0.5 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.25 --positive 0.25 --zoom_out 0.5 --flip 0.5 --val_epoch 10 --clip_length 11 --clip_stride 11
 
 #GEN1: ReYOLOv8s
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10 --clip_length 11 --clip_stride 11
 
 #GEN1: ReYOLOv8m
-python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10 --clip_length 11 --clip_stride 11
 ```
 
 # Raw Datasets 
