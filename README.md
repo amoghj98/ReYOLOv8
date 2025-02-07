@@ -152,11 +152,11 @@ The raw datasets used in this work can be found on the following links:
 ```
 
 
-**$T**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo. <br />
-**$CONVERTED_DATASET_FOLDER**: folder where the raw dataset is stored <br />
-**$RAW_DATASET_FOLDER**: destination folder <br />
-**$FMT**: vtei, mdes, voxel_grid, or shist. <br />
-**$TBIN**: number of channels of the encoding. For **SHIST and VOXEL_GRIDs**, the final number of channels will be **2TBIN**
+**T**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo. <br />
+**CONVERTED_DATASET_FOLDER**: destination folder <br />
+**RAW_DATASET_FOLDER**: folder where the raw dataset is stored <br />
+**FMT**: vtei, mdes, voxel_grid, or shist. <br />
+**TBIN**: number of channels of the encoding. For **SHIST and VOXEL_GRIDs**, the final number of channels will be **2TBIN**
 
 
 Remarks: **Do not use Random Polariy Suppression if you choose SHIST or VOXEL_GRID as methods**
