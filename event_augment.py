@@ -96,9 +96,9 @@ class SuppressPolarity:
         instances = boxes
         if  random.random() < self.p1:
          if random.random() < self.p2:
-             img[img == 1] = 0
+             img[img > 0] = 0
          else:
-            img[img == -1] = 0
+            img[img < 0] = 0
 
         images = np.ascontiguousarray(img)
         boxes = instances

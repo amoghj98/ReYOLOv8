@@ -373,6 +373,31 @@ class EventVideoYOLOv8DetectionTrainer(BaseTrainer):
         self.scheduler.last_epoch = self.start_epoch - 1  # do not move
         self.run_callbacks('on_pretrain_routine_end')
 
+    def get_test_dataset(self, data):
+        """
+        Get train, val path from data dict if it exists. Returns None if data format is not recognized.
+        """
+        return data.get('test')
+
+
+    def final_eval(self):
+        del self.testset, self.trainset
+        self.testset = self.get_test_dataset(self.data)
+        #self, dataset_path, batch_size, img_x, img_y, aug_param, mode, rank=0, load = "batched", mixed_load = False
+        self.test_loader = self.get_dataloader(self.testset, batch_size=self.batch_size_ * 2,aug_param = self.aug_params,mode='val',rank=-1, load = "sequential")
+        self.validator = self.get_validator()
+
+        for f in self.last, self.best:
+            if f.exists():
+                strip_optimizer(f)  # strip optimizers
+                if f is self.best:
+                    self.console.info(f'\nValidating {f}...')
+                    self.metrics = self.validator(model=f)
+                    self.metrics.pop('fitness', None)
+                    self.run_callbacks('on_fit_epoch_end')
+                    wandb.log(self.metrics)
+
+
     def _do_train(self, rank=-1, world_size=1):
         if world_size > 1:
             self._setup_ddp(rank, world_size)
@@ -479,7 +504,7 @@ class EventVideoYOLOv8DetectionTrainer(BaseTrainer):
                 self.ema.update_attr(self.model, include=['yaml', 'nc', 'args', 'names', 'stride', 'class_weights'])
                 final_epoch = (epoch + 1 == self.epochs) or self.stopper.possible_stop
 
-                if (self.args.val and epoch % self.args.val_epoch == 0  and epoch != 0):
+                if (self.args.val and (epoch - 1) % self.args.val_epoch == 0  and epoch != 0):
                     self.metrics, self.fitness = self.validate()         
 
 

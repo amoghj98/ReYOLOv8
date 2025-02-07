@@ -33,12 +33,13 @@ First of all, you need to open the "yaml" file to the corresponding dataset you 
 Then, you can run:
 
 ```
- python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT}
+ python val.py --data ${DATASET}.yaml --model ${WEIGHTS}.pt --channels 5 --split ${SPLIT} --show_sequences ${SEQ}
 ```
 Example
 **${SPLIT}**: val, test
 **${DATASET}**: vtei_gen1, vtei_pedro
 **${WEIGHTS}**: weights/reyolov8s_gen1_rps
+**${SEQ}**: number of sequences you want to see the predictions, default is 3
 
 The speed statistics in this validation mode are given according the full sequences. To check the speed to perform inference tensor by tensor, we run:
 
@@ -76,8 +77,62 @@ Then, after running this snippet for all the formats, you can run the **{EventEn
 
 **Single-GPU**
 
+The general training code is:
+
 ```
-python train.py --batch 12 --nbs 6 --epochs 100 --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME} 
+python train.py --batch ${BATCH} --nbs ${BATCH//2} --epochs ${NUM_EPOCH} --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp ${HYP}.yaml --suppress ${S} --positive ${P} --zoom_out ${Z} --flip ${F} --val_epoch ${VAL_EPOCH} --clip_length ${CLIP_LENGTH} --clip_stride ${CLIP_STRIDE}
+```
+
+where:
+
+**${BATCH}**: batch size
+**${NUM_EPOCH}**: number of epochs
+**${MODEL_NAME}**: ReYOLOv8n, ReYOLOv8s, or ReYOLOv8m
+**${HYP}**: Files with some hyperparameters: default_gen1 and default_pedro
+**${S}**: Suppression probability (use only if the data format is VTEI or MDES)
+**${P}**: Positive suppression probability 
+**${F}**: Horizontal flip probability
+**${Z}**: Zoom-out probability
+**${VAL_EPOCH}**: Number of epochs to perform validation
+**${CLIP_LENGTH}**: Length of the clips used for tranining
+**${CLIP_STRIDE}**: Distance between different clips. If equal to CLIP_LENGTH, clips will not present overlapp.
+
+Other parameters such as the loss coefficients, learning rate, and weight decay can be modified in the **default.yaml** files.
+
+To accelerate the training, we adopted some tricks:
+**1-** We validated only at each 10 epochs
+**2-** During training, instead of running the validation steps on full sequences, we divided the **val** set into batches that can be processed faster.
+**3-** On the training pipeline, only the final validation step over the **test** set is calculated over full sequences.
+**4-** Values reported in the paper that refer to the **val** set come from running **val.py** after training
+
+The factor **--nbs** stands for Normalized Batch Size. It is also present in the original Ultralytics repo, and it is utilized as an attempt to make the training more robust to different batch sizes. Accordingly, 
+the Weight Decay was set taking into consideration the **nbs** and the **clip length** according to:
+
+```
+W_Decay = W0*Batch_size*Clip_Length/NBS
+```
+where **W0** is the weight decay defined in the default files and **W_Decay** is the one adopted during training (and reported on the paper)
+
+**Reproduce our training**
+
+```
+#PEDRo: ReYOLOv8n
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.25 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+
+#PEDRo: ReYOLOv8s
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+
+#PEDRo: ReYOLOv8m
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.125 --positive 0.50 --zoom_out 0.2 --flip 0.5 --val_epoch 10
+
+#GEN1: ReYOLOv8n
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.25 --positive 0.25 --zoom_out 0.5 --flip 0.5 --val_epoch 10
+
+#GEN1: ReYOLOv8s
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10
+
+#GEN1: ReYOLOv8m
+python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10
 ```
 
 # Raw Datasets 
@@ -87,6 +142,23 @@ The raw datasets used in this work can be found on the following links:
 - **GEN1**: [Prophesee Gen1 Automotive Detection Dataset](https://www.prophesee.ai/2020/01/24/prophesee-gen1-automotive-detection-dataset/)
 - **PEDRo**: [PEDRo Event-Based Dataset](https://github.com/SSIGPRO/PEDRo-Event-Based-Dataset)
 
+# Converting Raw Datasets to ReYOLOv8 compatible formats
+
+**GEN1**
+```
+#python singleShot_eventDataHandler_GEN1.py --timeWindow ${T} --dataset GEN1 --category "train" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+#python singleShot_eventDataHandler_GEN1.py --timeWindow ${T} --dataset GEN1 --category "val" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+#python singleShot_eventDataHandler_GEN1.py --timeWindow ${T} --dataset GEN1 --category "test" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+```
+
+
+**${T}**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo.
+**${RAW_DATASET_FOLDER}**: folder where the 
+**${FMT}**: vtei, mdes, voxel_grid, or shist.
+**${TBIN}**: number of channels of the encoding. For **SHIST and VOXEL_GRIDs**, the final number of channels will be **2TBIN**
+
+
+Remarks: **Do not use Random Polariy Suppression if you choose SHIST or VOXEL_GRID as methods**
 
 # Code Acknowledgements
 
