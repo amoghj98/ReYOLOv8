@@ -135,6 +135,12 @@ python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model
 python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model ReYOLOv8n.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp default_pedro.yaml --suppress 0.05 --positive 0.50 --zoom_out 0.5 --flip 0.5 --val_epoch 10 --clip_length 11 --clip_stride 11
 ```
 
+**Multi-GPU** 
+
+'''
+torchrun --nnodes 1  --nproc_per_node 4  train.py --device [0,1] --batch ${BATCH} --nbs ${BATCH//2} --epochs ${NUM_EPOCH} --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp ${HYP}.yaml --suppress ${S} --positive ${P} --zoom_out ${Z} --flip ${F} --val_epoch ${VAL_EPOCH} --clip_length ${CLIP_LENGTH} --clip_stride ${CLIP_STRIDE}
+'''
+
 # Raw Datasets 
 
 The raw datasets used in this work can be found on the following links:
@@ -160,13 +166,6 @@ The raw datasets used in this work can be found on the following links:
 
 
 Remarks: **Do not use Random Polariy Suppression if you choose SHIST or VOXEL_GRID as methods**
-
-**Multi-GPU** 
-
-'''
-torchrun --nnodes 1  --nproc_per_node 4  train.py --device [0,1] --batch ${BATCH} --nbs ${BATCH//2} --epochs ${NUM_EPOCH} --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp ${HYP}.yaml --suppress ${S} --positive ${P} --zoom_out ${Z} --flip ${F} --val_epoch ${VAL_EPOCH} --clip_length ${CLIP_LENGTH} --clip_stride ${CLIP_STRIDE}
-'''
-
 # Code Acknowledgements
 
 - https://github.com/ultralytics/ultralytics
