@@ -137,9 +137,9 @@ python train.py --batch 48 --nbs 24 --epochs 100 --data vtei_pedro.yaml  --model
 
 **Multi-GPU** 
 
-'''
+```
 torchrun --nnodes 1  --nproc_per_node 4  train.py --device [0,1] --batch ${BATCH} --nbs ${BATCH//2} --epochs ${NUM_EPOCH} --data ${DATASET}.yaml  --model ${MODEL_NAME}.yaml --channels 5 --name ${WANDB_RUN_NAME} --project ${WANDB_PROJECT_NAME}  --hyp ${HYP}.yaml --suppress ${S} --positive ${P} --zoom_out ${Z} --flip ${F} --val_epoch ${VAL_EPOCH} --clip_length ${CLIP_LENGTH} --clip_stride ${CLIP_STRIDE}
-'''
+```
 
 # Raw Datasets 
 
