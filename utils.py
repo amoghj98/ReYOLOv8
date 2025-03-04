@@ -5,82 +5,24 @@ import h5py
 import hdf5plugin
 import matplotlib 
 import matplotlib.pyplot as plt 
-from event_utils.lib.representations.voxel_grid import get_voxel_grid_as_image, plot_voxel_grid, events_to_voxel_torch
-from PIL import Image, ImageSequence, ImageDraw
-import time
 
-def visualize_sequences_in_batches(image, boxes, cls, batch_idx, clip_idx):
-    n, l, c, h, w = image.shape
-    print("Total of Boxes:", boxes.shape)
-    print("Classes:", cls.shape)
-    print("batch idx:", batch_idx.shape)
-    print("clip idx:", clip_idx.shape)
-    # visualize sequences from each batch
-    for i in range(n):
-        img = image[i,:,:,:]
-        batch_mask = batch_idx == batch
-        boxes = boxes[batch_mask]
-        clip_idx = clip_idx[batch_mask]
-        cls = cls[batch_mask]         
 
-def draw_images_bboxes(img, h, w, boxes, cls):
-  #img_ = img[0,:,:] 
-  img_ = img[0,:,:]  + 2*img[1,:,:]  + 3*img[2,:,:] + 4*img[3,:,:]  + 5*img[4,:,:] 
-  #img_ = img[0,:,:]
-  #img_ = img_.numpy()
-  #for i in range(1,img.shape[0]):
-  #    img_ += img[i,:,:]
-  img_ = img_.numpy()
-  img = Image.fromarray(img_*127.5 + 127.5)
-  img1 = ImageDraw.Draw(img) 
-  for i in range(len(boxes)):
-   
-    x = w*boxes[i][0] 
-    y = h*boxes[i][1] 
-    w_ = w*boxes[i][2]
-    h_ = h*boxes[i][3]
-  
-    #xywh to xyxy
-    x1 = (x - w_/2)
-    y1 = (y - h_/2)
-    x2 = (x + w_/2)
-    y2 = (y + h_/2)
-   
-    shape = ((x1,y1),(x2,y2))
-    img1.rectangle(shape,outline ="black", width = 4)
-  img.show()
-  time.sleep(1)
 
-    
 def create_destination_folder(destination,formatInfo,name, size_x, size_y):
-    if formatInfo["method"] == 0:
-       if formatInfo["aggr_mode"] == 0: 
-         destFolder = os.path.join(destination,"histograms",formatInfo["frameFormat"],name + '_' + str(size_x) + '_' + str(size_y) + '_' + str(formatInfo["timeWindow"]) + 'ms')
-       else: 
-         destFolder = os.path.join(destination,"histograms",formatInfo["frameFormat"],name + '_' + str(size_x) + '_' + str(size_y) + '_' + str(formatInfo["numEvents"]) + '_ev')
-    else: 
-       if formatInfo["combine_p"] == True:
-          voxelFormat = "combine_p"
-       else:
-          voxelFormat = "separate_p"
-
-       if formatInfo["aggr_mode"] == 0: 
-         destFolder = os.path.join(destination,"voxel_grids",voxelFormat,name + '_' + str(size_x) + '_' + str(size_y) + '_tbin_' + str(formatInfo["tbin"])  + '_' + str(formatInfo["timeWindow"]) + 'ms')
-       else: 
-         destFolder = os.path.join(destination,"voxel_grids",voxelFormat,name + '_' + str(size_x) + '_' + str(size_y) + '_tbin_' + str(formatInfo["tbin"]) + '_' + str(formatInfo["numEvents"]) + '_ev')
-
+    destFolder = os.path.join(destination,name + '_' + formatInfo["method"] + '_' + str(size_x) + '_' + str(size_y) + '_' + str(formatInfo["timeWindow"]) +  "ms_bins_" + str(formatInfo["tbin"]))
+   
     if not(os.path.exists(destFolder)):
-           os.mkdir(destFolder)
+           os.makedirs(destFolder, exist_ok = True)
            imageFolder = os.path.join(destFolder,'images')
-           os.mkdir(imageFolder)
-           os.mkdir(os.path.join(imageFolder,'train'))
-           os.mkdir(os.path.join(imageFolder,'test'))
-           os.mkdir(os.path.join(imageFolder,'val'))
+           os.makedirs(imageFolder, exist_ok = True)
+           os.makedirs(os.path.join(imageFolder,'train'), exist_ok = True)
+           os.makedirs(os.path.join(imageFolder,'test'), exist_ok = True)
+           os.makedirs(os.path.join(imageFolder,'val'), exist_ok = True)
            labelFolder = os.path.join(destFolder,'labels')
-           os.mkdir(labelFolder)
-           os.mkdir(os.path.join(labelFolder,'train'))
-           os.mkdir(os.path.join(labelFolder,'test'))
-           os.mkdir(os.path.join(labelFolder,'val'))
+           os.makedirs(labelFolder, exist_ok = True)
+           os.makedirs(os.path.join(labelFolder,'train'), exist_ok = True)
+           os.makedirs(os.path.join(labelFolder,'test'), exist_ok = True)
+           os.makedirs(os.path.join(labelFolder,'val'), exist_ok = True)
     return destFolder
 
 def filter_boxes(boxes, skip_ts= 0, min_box_diag=0, min_box_side=0, dataset = "GEN1"):
@@ -148,6 +90,7 @@ def create_labels(box_events):
     return labels
 
 def save_hist(destFolder, index, category, fileList, box_events, frame): 
+
            plt.imsave(destFolder + '/images/'+ category+'/figurinha_list' + fileList + '_' + str(index) +'.jpeg',frame) 
            with open(destFolder + '/labels/'+category+'/figurinha_list'+ fileList + '_' + str(index) +'.txt', 'w') as f:
              for idx in range(0,len(box_events['x'])):
@@ -166,60 +109,24 @@ def save_hist(destFolder, index, category, fileList, box_events, frame):
            f.close() 
 
 
-def save_voxel(destFolder, index, category, fileList, box_events, frame): 
-           np.save(destFolder + '/images/'+ category+'/figurinha_list' + fileList + '_' + str(index) +'.npy',frame) 
-           with open(destFolder + '/labels/'+category+'/figurinha_list'+ fileList + '_' + str(index) +'.txt', 'w') as f:
-             for idx in range(0,len(box_events['x'])):
-                f.write(str(box_events['class_id'][idx]))
-                f.write(' ')
-                f.write(str(box_events['x'][idx]))
-                f.write(' ')
-                f.write(str(box_events['y'][idx]))
-                f.write(' ')
-                f.write(str(box_events['w'][idx]))
-                f.write(' ')
-                f.write(str(box_events['h'][idx]))
-                f.write(' ')
-                f.write('\n')
-                
-           f.close() 
-
-def save_voxel_2p(destFolder, index, category, fileList, box_events, frame): 
-           np.save(destFolder + '/images/'+ category+'/pos_figurinha_list' + fileList + '_' + str(index) +'.npy',frame[0]) 
-           np.save(destFolder + '/images/'+ category+'/neg_figurinha_list' + fileList + '_' + str(index) +'.npy',frame[1]) 
-           with open(destFolder + '/labels/'+category+'/pos_figurinha_list'+ fileList + '_' + str(index) +'.txt', 'w') as f:
-             for idx in range(0,len(box_events['x'])):
-                f.write(str(box_events['class_id'][idx]))
-                f.write(' ')
-                f.write(str(box_events['x'][idx]))
-                f.write(' ')
-                f.write(str(box_events['y'][idx]))
-                f.write(' ')
-                f.write(str(box_events['w'][idx]))
-                f.write(' ')
-                f.write(str(box_events['h'][idx]))
-                f.write(' ')
-                f.write('\n')
-           with open(destFolder + '/labels/'+category+'/neg_figurinha_list'+ fileList + '_' + str(index) +'.txt', 'w') as f:
-             for idx in range(0,len(box_events['x'])):
-                f.write(str(box_events['class_id'][idx]))
-                f.write(' ')
-                f.write(str(box_events['x'][idx]))
-                f.write(' ')
-                f.write(str(box_events['y'][idx]))
-                f.write(' ')
-                f.write(str(box_events['w'][idx]))
-                f.write(' ')
-                f.write(str(box_events['h'][idx]))
-                f.write(' ')
-                f.write('\n')
-                
-           f.close() 
 
 def save_compressed_clip(destFolder, index, category, fileList, frame, labels, compress = True): 
-   f = os.path.join(destFolder + '/images/'+ category+'/sequence_' + fileList + '_subseq_' + str(index) +'.h5')
-   print(f)
-   print(os.path.join(destFolder + '/labels/'+ category+'/sequence_' + fileList + '_subseq_' + str(index) +'.npy'))
+   f = os.path.join(destFolder + '/images/'+ category+'/sequence_' + fileList + '_subseq_' + str(index).zfill(7) +'.h5')
+   if compress:
+    hf = h5py.File(f,'w')
+    hf.create_dataset('1mp', data = frame,**hdf5plugin.Blosc(cname='zstd'))
+    hf.close()
+   else:
+    hf = h5py.File(f,'w')
+    hf.create_dataset('1mp', data = frame)
+    hf.close()
+   
+   
+   np.save(os.path.join(destFolder + '/labels/'+ category+'/sequence_' + fileList + '_subseq_' + str(index).zfill(7) +'.npy'),np.array(labels, dtype = object))
+
+
+def save_only_compressed_clip(destFolder, index, category, fileList, frame, compress = True): 
+   f = os.path.join(destFolder + '/images/'+ category+'/sequence_' + fileList + '_subseq_' + str(index).zfill(6) +'.h5')
    if compress:
     hf = h5py.File(f,'w')
     hf.create_dataset('1mp', data = frame,**hdf5plugin.Blosc(cname='zstd'))
@@ -229,11 +136,12 @@ def save_compressed_clip(destFolder, index, category, fileList, frame, labels, c
     hf.create_dataset('1mp', data = frame)
     hf.close()
 
-   np.save(os.path.join(destFolder + '/labels/'+ category+'/sequence_' + fileList + '_subseq_' + str(index) +'.npy'),np.array(labels, dtype = object))
+
 
 def save_compressed_clip_label(destFolder, k, category, fileList, labels, compress = True): 
 
-   np.save(os.path.join(destFolder + '/labels/'+ category+'/sequence_' + fileList + '_subseq_' + str(k) +'.npy'),np.array(labels, dtype = object))
+   np.save(os.path.join(destFolder + '/labels/'+ category+'/sequence_' + fileList + '_subseq_' + str(k).zfill(7) +'.npy'),np.array(labels, dtype = object))
+
 
 
 
