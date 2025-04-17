@@ -157,6 +157,12 @@ The raw datasets used in this work can be found on the following links:
 #python singleShot_eventDataHandler_GEN1.py --timeWindow ${T} --dataset GEN1 --category "test" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
 ```
 
+**PeDRo**
+```
+#python singleShot_eventDataHandler_pedro.py --timeWindow ${T} --dataset GEN1 --category "train" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+#python singleShot_eventDataHandler_pedro.py --timeWindow ${T} --dataset GEN1 --category "val" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+#python singleShot_eventDataHandler_pedro.py --timeWindow ${T} --dataset GEN1 --category "test" --source ${RAW_DATASET_FOLDER} --destination ${CONVERTED_DATASET_FOLDER} --method ${FMT} --bins ${TBIN}
+```
 
 **T**: time-window for creating the encodings. We used 50 for GEN1 and 40 for PeDRo. <br />
 **CONVERTED_DATASET_FOLDER**: destination folder <br />
