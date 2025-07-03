@@ -536,7 +536,7 @@ def torch_safe_load(weight):
     """
 
     try:
-        return torch.load(weight, map_location='cpu'), weight  # load
+        return torch.load(weight, map_location='cpu', weights_only=False), weight  # load
     except ModuleNotFoundError as e:
         if e.name == 'omegaconf':  # e.name is missing module name
             LOGGER.warning(f'WARNING ⚠️ {weight} requires {e.name}, which is not in ultralytics requirements.'

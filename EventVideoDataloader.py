@@ -7,8 +7,10 @@ import time
 from ultralytics.yolo.utils import LOGGER, colorstr
 from ultralytics.yolo.data.utils import  PIN_MEMORY, RANK
 from EventVideoDataset import EventVideoDetectionDataset
+from MOTE_Dataset import MOTE_Dataset_Parallel
 from torch.utils.data import DataLoader, dataloader, distributed
 from ultralytics.yolo.utils.torch_utils import torch_distributed_zero_first
+from learning_config import configs, print_args
 
 
 
@@ -24,7 +26,8 @@ def build_video_dataloader(cfg, video_config, batch_size, video_path, aug_param,
     shuffle = (mode == "train")
     #print("video path", video_path)
     with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
-        dataset = EventVideoDetectionDataset(video_path,video_config["clip_length"], video_config["clip_stride"], video_config["channels"], aug_param,mode, load)
+        # dataset = EventVideoDetectionDataset(video_path,video_config["clip_length"], video_config["clip_stride"], video_config["channels"], aug_param,mode, load)
+        dataset = MOTE_Dataset_Parallel(mode="train")
 
     batch_size = min(batch_size, len(dataset))
   
@@ -70,7 +73,8 @@ def build_video_val_standalone_dataloader(cfg, video_config, batch_size, video_p
 
     with torch_distributed_zero_first(rank):  # init dataset *.cache only once if DDP
         
-        dataset = EventVideoDetectionDataset(video_path,video_config["clip_length"], video_config["clip_stride"], video_config["channels"], [None],"val", mode)
+        # dataset = EventVideoDetectionDataset(video_path,video_config["clip_length"], video_config["clip_stride"], video_config["channels"], [None],"val", mode)
+        dataset = MOTE_Dataset_Parallel(mode="test")
 
   
     nd = torch.cuda.device_count()  # number of CUDA devices

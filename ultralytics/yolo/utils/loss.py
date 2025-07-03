@@ -32,8 +32,17 @@ class BboxLoss(nn.Module):
         # IoU loss 
 
         weight = torch.masked_select(target_scores.sum(-1), fg_mask).unsqueeze(-1)
-        iou = bbox_iou(pred_bboxes[fg_mask], target_bboxes[fg_mask], xywh=False, CIoU=True)
-        loss_iou = ((1.0 - iou) * weight).sum() / target_scores_sum
+        #
+        # iou = bbox_iou(pred_bboxes[fg_mask], target_bboxes[fg_mask], xywh=False, CIoU=True)
+        # loss_iou = ((1.0 - iou) * weight).sum() / target_scores_sum
+        #
+        pred_pos = torch.Tensor(target_bboxes[fg_mask][:, 0], target_bboxes[fg_mask][:, 1])
+        labl_pos = torch.Tensor(pred_bboxes[fg_mask][:, 0], pred_bboxes[fg_mask][:, 1])
+        pred_dir = torch.Tensor(target_bboxes[fg_mask][:, 2], target_bboxes[fg_mask][:, 3])
+        labl_dir = torch.Tensor(pred_bboxes[fg_mask][:, 2], pred_bboxes[fg_mask][:, 3])
+        loss_pos = torch.nn.functional.mse_loss(pred_pos, labl_pos)
+        loss_dir = torch.nn.functional.mse_loss(pred_dir, labl_dir)
+        loss_iou = loss_pos + loss_dir
 
         # DFL loss
         if self.use_dfl:

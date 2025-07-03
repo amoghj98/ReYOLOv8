@@ -142,10 +142,23 @@ class EventVideoDetectionValidator(BaseValidator):
                 self.plot_predictions(batch_, batch,preds, batch_i,T)
 
             self.run_callbacks('on_val_batch_end') 
+        
+        #
+        for si, pred in enumerate(preds):
+            print(f'si: {si}, pred: {pred.to(device="cpu")}')
+            print(f'si: {si}, pred: {pred}')
+        # print(f'Preds: {preds}')
+        # print(f'preds 0: {preds[0].to(device='cpu')}')
+        # print(f'preds 0: {preds[0][:, :]}')
+        x_pred, y_pred = preds[0][:, 0], preds[0][:, 1]
+        x_labl, y_labl = batch['bboxes'][:, 0], batch['bboxes'][:, 1]
+        manhattan_error = torch.abs(x_pred - x_labl) + torch.abs(y_pred - y_labl)
+        self.metrics.results_dict['manhattan_error'] = manhattan_error
 
-        stats = self.get_stats()
-        self.check_stats(stats)
-        self.print_results()
+        stats = self.metrics.results_dict
+        # stats = self.get_stats()
+        # self.check_stats(stats)
+        # self.print_results()
         self.speed = tuple(x.t / len(self.dataloader.dataset) * 1E3 for x in dt)  # speeds per image
         self.finalize_metrics()
         self.run_callbacks('on_val_end')
@@ -213,7 +226,8 @@ class EventVideoDetectionValidator(BaseValidator):
             idx = batch['batch_idx'][sequence_mask] == si
             cls = batch['cls'][sequence_mask][idx]
             cls = cls.view(cls.shape[0],1).to(self.device)
-            bbox = batch['bboxes'][sequence_mask][idx].to(self.device)
+            # bbox = batch['bboxes'].unsqueeze(1)
+            bbox = batch['bboxes'][sequence_mask].to(self.device)
             nl, npr = cls.shape[0], pred.shape[0]  # number of labels, predictions
 
             correct_bboxes = torch.zeros(npr, self.niou, dtype=torch.bool, device=self.device)  # init
@@ -258,7 +272,7 @@ class EventVideoDetectionValidator(BaseValidator):
         if len(stats) and stats[0].any():
             self.metrics.process(*stats)
 
-        self.nt_per_class = np.bincount(stats[-1].astype(int), minlength=self.nc)  # number of targets per class
+        # self.nt_per_class = np.bincount(stats[-1].astype(int), minlength=self.nc)  # number of targets per class
         return self.metrics.results_dict
 
     def print_results(self):

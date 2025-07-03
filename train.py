@@ -208,7 +208,8 @@ class EventVideoYOLOv8DetectionTrainer(BaseTrainer):
         try:
             if self.args.task == 'classify':
                 self.data = check_cls_dataset(self.args.data)
-            elif self.args.data.endswith('.yaml') or self.args.task in ('detect', 'segment'):
+            # elif self.args.data.endswith('.yaml') or self.args.task in ('detect', 'segment'):
+            elif self.args.task in ('detect', 'segment'):
                 self.data = check_det_dataset(self.args.data)
                 if 'yaml_file' in self.data:
                     self.args.data = self.data['yaml_file']  # for validating 'yolo train data=url.zip' usage
@@ -257,6 +258,7 @@ class EventVideoYOLOv8DetectionTrainer(BaseTrainer):
         #batch['img'] = batch['img'].to(self.device, non_blocking=True).float() / 255
         #batch = batch.to(self.device, non_blocking=True).float() / batch.max()
         #batch = (batch*127.5 + 127.5).to(self.device, non_blocking=True).float() / 255   
+        # print(f'batch shape: {batch.shape}')
         batch = (batch).to(self.device, non_blocking=True).float()  
 
         #print("before interp", batch.shape)
@@ -615,6 +617,13 @@ class LossVideo:
 
         # targets
 
+        # print(f' Img shape: {batch["img"].shape}')
+        # print(f' Bboxes shape: {batch["bboxes"].shape}')
+        # print(f' Batch Idx shape: {batch["batch_idx"].shape}')
+        # print(f' Batch cls shape: {batch["cls"].shape}')
+        # print(f'{batch["batch_idx"][sequence_mask].view(-1, 1).shape}')
+        # print(f'{batch["cls"][sequence_mask].view(-1, 1).shape}')
+        # print(f'{batch["bboxes"][sequence_mask].shape}')
         targets = torch.cat((batch['batch_idx'][sequence_mask].view(-1, 1), batch['cls'][sequence_mask].view(-1, 1), batch['bboxes'][sequence_mask]), 1)
 
         targets = self.preprocess(targets.to(self.device), batch_size, scale_tensor=imgsz[[1, 0, 1, 0]])

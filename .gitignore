@@ -1,0 +1,6 @@
+*.zip
+
+runs/
+wandb/
+toffe/
+weights/

@@ -183,7 +183,13 @@ class EventVideoDetectionDataset(Dataset):
         ret_dict['vid_file'] = img_file
         ret_dict['vid_pos'] = torch.from_numpy(np.array(flat_frame_ind))
         ret_dict['clip_pos'] = torch.from_numpy(np.array(frame))
-        ret_dict['batch_idx'] = torch.zeros(ret_dict['cls'].shape)        
+        ret_dict['batch_idx'] = torch.zeros(ret_dict['cls'].shape)
+
+        # for k in ret_dict.keys():
+        #     try:
+        #         print(f'{k} shape: {ret_dict[k].shape}')
+        #     except:
+        #         print('Not an array')        
 
         return ret_dict
              
@@ -323,6 +329,3 @@ class EventVideoDetectionDataset(Dataset):
         new_batch['batch_idx'] = torch.cat(new_batch['batch_idx'], 0)
         #print("collate time:", time.time()-start_collate)
         return new_batch
-
-
-
