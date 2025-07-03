@@ -150,8 +150,8 @@ class EventVideoDetectionValidator(BaseValidator):
         # print(f'Preds: {preds}')
         # print(f'preds 0: {preds[0].to(device='cpu')}')
         # print(f'preds 0: {preds[0][:, :]}')
-        x_pred, y_pred = preds[0][:, 0], preds[0][:, 1]
-        x_labl, y_labl = batch['bboxes'][:, 0], batch['bboxes'][:, 1]
+        x_pred, y_pred = preds[0][:, 0].to(device="cpu"), preds[0][:, 1].to(device="cpu")
+        x_labl, y_labl = batch['bboxes'][:, 0].to(device="cpu"), batch['bboxes'][:, 1].to(device="cpu")
         manhattan_error = torch.abs(x_pred - x_labl) + torch.abs(y_pred - y_labl)
         self.metrics.results_dict['manhattan_error'] = manhattan_error
 
