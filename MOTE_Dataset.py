@@ -223,13 +223,15 @@ class MOTE_Dataset_Parallel(Dataset):
         if valid_pose:
             # ret_dict['img']  = torch.permute(torch.from_numpy(event_bins), (2, 0, 1)).unsqueeze(0).repeat(11, 1, 1, 1) #torch.from_numpy(event_bins) (nBins, height, width)
             # print(f'img shape: {ret_dict["img"].shape}')
-            ret_dict['bboxes'] = torch.cat((torch.from_numpy(gt_pos_txed), torch.from_numpy(gt_dir)), dim=0).squeeze()  # 50 is a dummy value for width and height (1, 4)
+            # ret_dict['bboxes'] = torch.cat((torch.from_numpy(gt_pos_txed), torch.from_numpy(gt_dir)), dim=0).squeeze()  # 50 is a dummy value for width and height (1, 4)
+            ret_dict['bboxes'] = torch.cat((torch.from_numpy(gt_pos_txed), 80 * torch.ones_like(torch.from_numpy(gt_pos_txed))), dim=0).squeeze()  # 50 is a dummy value for width and height (1, 4)
             # print(f'bboxes shape: {ret_dict["bboxes"].shape}')
         else:
             # ret_dict['img'] = torch.cat((evt_repr[:, i, :, :].repeat(1, 2, 1, 1) for i in range(self.nBins)), dim=0)
             # ret_dict['img'] = torch.cat((ret_dict['img'], evt_repr[:, self.nBins - 1, :, :]), dim=0)
             # ret_dict['img']  = torch.permute(torch.from_numpy(event_bins), (2, 0, 1)).unsqueeze(0).repeat(11, 1, 1, 1) #torch.from_numpy(event_bins) (nBins, height, width)
-            ret_dict['bboxes'] = torch.cat((torch.from_numpy(np.zeros_like(gt_pos_txed)), torch.zeros_like(torch.from_numpy(gt_pos_txed))), dim=0).squeeze()  # 50 is a dummy value for width and height (1, 4)
+            # ret_dict['bboxes'] = torch.cat((torch.from_numpy(np.zeros_like(gt_pos_txed)), torch.zeros_like(torch.from_numpy(gt_pos_txed))), dim=0).squeeze()  # 50 is a dummy value for width and height (1, 4)
+            ret_dict['bboxes'] = torch.cat((torch.from_numpy(np.zeros_like(gt_pos_txed)), 80 * torch.from_numpy(np.zeros_like(gt_pos_txed))), dim=0).squeeze()
             # ret_dict['sequence'] =  sequence_data
             # ret_dict['vid_file'] = img_file
 

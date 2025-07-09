@@ -30,6 +30,8 @@ class EventVideoDetectionValidator(BaseValidator):
         super().__init__(dataloader, save_dir, pbar, logger, args)
 
         self.args = args or get_cfg(DEFAULT_CFG)
+        self.args.iou = 0.001
+        self.args.conf = 0.001
         self.video_config = video_config
         self.args.task = 'detect'
         self.is_coco = False
@@ -125,6 +127,7 @@ class EventVideoDetectionValidator(BaseValidator):
             with dt[1]:
                 
                 preds, hidden_states = model(batch_, hidden_states)
+                # print(f'preds1: {preds}')
 
                 #print(len(preds))
             # loss
@@ -135,6 +138,7 @@ class EventVideoDetectionValidator(BaseValidator):
             # postprocess
             with dt[3]:
                 preds = self.postprocess(preds)
+                # print(f'preds2: {preds}')
 
             self.update_metrics(preds, batch_, batch,sequence_mask, T)
             if self.args.plots and batch_i < self.args.show_sequences:
